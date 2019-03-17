@@ -1,0 +1,39 @@
+
+Logic Explanation for Scenario 2: Lightning Component to show Important Information of Customers to Agents
+
+1. Created metadata in the org :
+
+	i. Custom Fields on Contact standard object : 
+		Product__c : Picklist with values : Standard, Black, Metal
+		Home_Country__c : Picklist with values : DE, FR, ES, IT, UK
+						
+	ii. FlexiPage modification : Added the created Lightning component on Contact record page using Lightning App Builder.
+					Please check the screenshot attached over Email(attached couple of screenshots for your reference).
+								
+	iii. ApexClass : 
+			N26_RetrieveProductDetailsBasedOnCountry : 
+							Has an AuraEnabled method(returnProductDetailsUsingWrapper) returning a Custom Wrapper.
+							This custom wrapper has the required values from the 3 tables(actually stored in CustomMetadata)
+							Any exception occurring can be handled by creating an ErrorLog custom object(can be used for logging).
+							
+			N26_RetrieveProductDetailsBsdOnCty_Test : This is the test class for N26_RetrieveProductDetailsBasedOnCountry. Have 1 test method:
+							test_returnProductDetailsUsingWrapper : Creating a Contact & passing its Id to the Apex Class.
+							
+	iv. CustomMetadata : Created a single CustomMetadata to store all the 3 tables data. 
+			Home_Country__c : Field storing the 'Home Country' data from Table shared over the requirement doc.
+			Product__c : Field storing the 'Product' data from Table shared over the requirement doc.
+			TypeOfTable__c : Field used to differentiate b/w the type of table(this field actually helps us to combine all the 3 tables in a single metadata)
+					In ApexClass we are doing 3 different SOQL queries based on this field. And 3 SOQL doesn't hurt us as CustomMetadata's SOQL doesn't count against governor limits.
+			Value__c : The actual value based on the combination of above 3 fields(type of table, Product, & Home Country)
+			
+	v. Lightning Component(AuraDefinitionBundle) :
+			N26_CustomersProductInfoToAgents : Component getting recordId of the record & sending it to the backend controller method(which is querying Product & Home_Country__c details)
+												Based on the Metadata table & the Product__c & Home_Country__c values for the Contact record we are populating a custom wrapper.
+												This wrapper is shown on the UI(with the backend values).
+												
+	Please let me know if you have any doubt(s)/feedback in understanding the Logic. I will be very glad to have a discussion. 
+	
+	Thanks,
+	Vivek
+							
+				

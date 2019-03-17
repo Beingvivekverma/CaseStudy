@@ -1,0 +1,35 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" 
+                access="global" controller="N26_RetrieveProductDetailsBasedOnCountry">
+	
+<aura:attribute name="record" type="Object"/>
+<aura:attribute name="simpleRecord" type="Object"/>
+<aura:attribute name="costPerCalendarMonth" type="String" default=""/>
+<aura:attribute name="atmFeeInOtherCurr" type="String" default=""/>
+<aura:attribute name="cardReplacementCost" type="String" default=""/>
+<aura:attribute name="recordError" type="String"/>
+
+    <!--Using LDS to load recordId : as after Winter18 force:hasRecordId sometimes does not return recordID(if component not used as a QuickAction)-->
+    <force:recordData aura:id="recordLoader" 
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.simpleRecord}"
+                      fields="Contact.Name,Contact.Product__c,Contact.Home_Country__c"
+                      mode="VIEW" 
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.doInit}"
+                      />
+
+    <!--Showing the Details coming from the backend Tables-->
+
+    <h1>Customer Product Information based On Location</h1>
+
+    <div class="slds-p-around_small">
+        <div class="slds-text-title slds-truncate slds-heading">Cost per Calendar Month : {!v.costPerCalendarMonth}</div>
+    </div>
+    <div class="slds-p-around_small">
+        <div class="slds-text-title slds-truncate slds-heading">ATM Fee in other currencies : {!v.atmFeeInOtherCurr}</div>
+    </div>
+    <div class="slds-p-around_small">
+        <div class="slds-text-title slds-truncate slds-heading">Card Replacement Cost : {!v.cardReplacementCost}</div>
+    </div>
+
+</aura:component>
