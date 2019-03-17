@@ -1,0 +1,40 @@
+
+Logic Explanation for Scenario 1: Sending Surveys to Customers
+
+1. Created metadata in the org :
+
+	i. Custom Fields on Contact standard object : 
+		Language__c : required Picklist with values : de, en
+		Survey_Date__c : storing Data value, non-required in nature. 
+		Is_German__c : Formula(Checkbox) : This is a boolean field deriving its value based on Language__c field.
+						If the Language__c is de -> this field is TRUE, else FALSE. This field is created to control the text of EmailTemplate.
+						Has described its function in detail under EmailTemplate.
+						
+	ii. EmailTemplate creation : Created a EmailTemplate named 'Send Survey'. Contact record's ID is passed to this template from Batch(during MassEmail send).
+								We are utilizing the boolean field Is_German__c to set the body of Email(English/ German). 
+								Please check the metadata of template attached.
+								
+	iii. ApexClass : 
+			N26_SendSurveyEmailsToCustomers : Batch class processing all the Contact records which have Survey_Date__c value as NON-NULL. 
+											There is not point in picking Contact records having null value for Survey_Date__c field as we will send Emails
+											based on this Survey_Date__c value.
+										Batch is implementing Database.Stateful interface to maintain state of some variables(between different batches).
+										Some variables like : thisBatchsContactsToBeProcessedSize & contactsToUpdate have been kept local to maintain their scope only during the current batch.
+										Once EmailSend result is successful, we have used these variables to pick only those Contacts for which Email send was successful.
+										Under Catch block, we can log the Exception(s) into a custom object for re-try mechanism. 
+	
+			N26_SendSurveyEmailsToCustomers_Test : This is the test class for N26_SendSurveyEmailsToCustomers. Have 2 test methods:
+							test_EmailSendCase : Tests the actual Email sending scenario 
+							test_EmailSendExceptionCase : Tests the scenario where we will exceed our MassEmail sending Limit(basically the Exception case)
+							createContacts : Method for creating Test data.
+							
+			N26_SendSurveyEmailsToCustomersSchedule : Schedule class for the Batch. 
+
+			N26_SendSrveEmailsToCstmrsScheduleTest : Test for the Schedule class.
+		
+	Please let me know if you have any doubt(s)/feedback in understanding the Logic. I will be very glad to have a discussion. 
+	
+	Thanks,
+	Vivek
+							
+				

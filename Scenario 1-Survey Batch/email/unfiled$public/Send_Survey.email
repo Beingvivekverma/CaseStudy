@@ -1,0 +1,5 @@
+Hey {!Contact.FirstName}, 
+
+{!IF(Contact.Is_German__c = TRUE, "bitte fülle unsere Umfrage aus:", "please fill out our survey:")}
+
+<a href="http://n26.com/survey/{!Contact.Id}">Click here</a>

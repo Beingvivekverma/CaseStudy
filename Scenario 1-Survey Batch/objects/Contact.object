@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Is_German__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( ISPICKVAL(Language__c, &apos;de&apos;)  , true, false)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Is German</label>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Language__c</fullName>
+        <description>storing the language of the customer
+in ISO 639-1 Code</description>
+        <externalId>false</externalId>
+        <label>Language</label>
+        <required>true</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>en</fullName>
+                    <default>false</default>
+                    <label>en</label>
+                </value>
+                <value>
+                    <fullName>de</fullName>
+                    <default>false</default>
+                    <label>de</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Survey_Date__c</fullName>
+        <description>storing the date of when a next
+survey should be sent</description>
+        <externalId>false</externalId>
+        <label>Survey Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Date</type>
+    </fields>
+</CustomObject>
